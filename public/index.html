@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Route AI – Plan and manage your trips with AI</title>
+  <meta name="description" content="Describe your trip, get an AI itinerary, and keep every plan in one place.">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Route AI home"><span class="mark"></span>Route <b>AI</b></a>
+    <nav aria-label="Primary">
+      <a href="#ai">Ask AI</a>
+      <a href="#destinations">Destinations</a>
+      <a href="#trips">My trips</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <h1>Tell us where. AI plans the route.</h1>
+      <p class="sub">Search trips, generate an itinerary in seconds and manage everything in one place.</p>
+
+      <form class="search" id="searchForm">
+        <div class="tabs" role="radiogroup" aria-label="Trip type">
+          <label><input type="radio" name="kind" value="Flight" checked><span>Flights</span></label>
+          <label><input type="radio" name="kind" value="Hotel"><span>Hotels</span></label>
+          <label><input type="radio" name="kind" value="Holiday"><span>Holidays</span></label>
+          <label><input type="radio" name="kind" value="Train"><span>Trains</span></label>
+        </div>
+        <div class="fields">
+          <label class="field"><span>From</span><input name="from" value="Patna" required autocomplete="off"></label>
+          <label class="field"><span>To</span><input name="to" id="to" placeholder="Where to?" required autocomplete="off" list="places"></label>
+          <label class="field"><span>Depart</span><input type="date" name="depart" required></label>
+          <label class="field"><span>Return</span><input type="date" name="ret"></label>
+          <label class="field"><span>Travellers</span>
+            <select name="pax"><option>1 traveller</option><option>2 travellers</option><option>3 travellers</option><option>4+ travellers</option></select>
+          </label>
+          <button class="btn primary" type="submit">Save trip</button>
+        </div>
+        <datalist id="places"></datalist>
+      </form>
+    </section>
+
+    <section class="section" id="ai">
+      <div class="head">
+        <div>
+          <h2>Ask Route AI</h2>
+          <p class="muted">Describe the trip you want. Include a place, days and budget.</p>
+        </div>
+      </div>
+      <form class="ai-box" id="aiForm">
+        <textarea id="aiPrompt" rows="2" maxlength="300" placeholder="e.g. 4 day trip to Goa with friends under ₹30,000" required></textarea>
+        <div class="ai-row">
+          <div class="chips" id="chips">
+            <button type="button" class="chip">3 days in Jaipur</button>
+            <button type="button" class="chip">5 day Bali honeymoon</button>
+            <button type="button" class="chip">Weekend in Manali</button>
+          </div>
+          <button class="btn primary" id="aiGo" type="submit">Plan with AI</button>
+        </div>
+      </form>
+      <div class="plan" id="plan" aria-live="polite" hidden></div>
+    </section>
+
+    <section class="section" id="destinations">
+      <div class="head">
+        <div>
+          <h2>Top destinations</h2>
+          <p class="muted">Pick a place, read the short brief, start planning.</p>
+        </div>
+        <div class="seg" role="tablist" aria-label="Destination type">
+          <button role="tab" aria-selected="true" data-type="domestic">Domestic</button>
+          <button role="tab" aria-selected="false" data-type="international">International</button>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="section" id="trips">
+      <div class="head">
+        <div>
+          <h2>My trips</h2>
+          <p class="muted">Saved plans stay on this device.</p>
+        </div>
+        <button class="btn ghost" id="clear" type="button" hidden>Clear all</button>
+      </div>
+      <ul class="trips" id="tripList"></ul>
+      <p class="empty" id="empty">No trips yet. Save a search or an AI plan.</p>
+    </section>
+  </main>
+
+  <dialog id="dlg" aria-labelledby="dTitle">
+    <div class="d-art" id="dArt"></div>
+    <div class="d-body">
+      <p class="muted" id="dRegion"></p>
+      <h3 id="dTitle"></h3>
+      <p id="dBrief"></p>
+      <dl class="facts">
+        <div><dt>Best time</dt><dd id="dBest"></dd></div>
+        <div><dt>Ideal stay</dt><dd id="dStay"></dd></div>
+        <div><dt>Known for</dt><dd id="dKnown"></dd></div>
+      </dl>
+      <div class="actions">
+        <button class="btn ghost" id="dClose" type="button">Close</button>
+        <button class="btn ghost" id="dAI" type="button">Plan with AI</button>
+        <button class="btn primary" id="dPlan" type="button">Search trip</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <footer class="foot">© <span id="yr"></span> Route AI. Built with HTML, CSS and JavaScript.</footer>
+</body>
+</html>
